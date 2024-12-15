@@ -1,11 +1,6 @@
 # Shopping-List-Application
 A shopping list application using Java.
 
-Team Members:
-1.Sidharth K Vinod - 1RF23IS083
-2.Prarthana L - 1RF23IS065
-3.Tanisha M - 1RF23IS087
-
 #**Functionalities**
 1. User registration and authentication
 2. Add/remove tasks

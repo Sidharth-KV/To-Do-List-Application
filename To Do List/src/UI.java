@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class UI extends JFrame {
     private JPanel taskPanel; // Panel to hold tasks with checkboxes
     private JTextField taskInputField; // Input field for new tasks
-    private ArrayList<JCheckBox> taskCheckBoxes; // List to store task checkboxes
+    private ArrayList<JCheckBox> taskCheckBoxes; // arrayList to store task checkboxes
 
     // JDBC Variables
     private final String DB_URL = "jdbc:mysql://localhost:3306/todo_list_app";
@@ -25,7 +25,7 @@ public class UI extends JFrame {
         this.setLayout(new BorderLayout());
         this.getContentPane().setBackground(new Color(0, 0, 69));
 
-        // Set app icon
+        //app icon
         ImageIcon img = new ImageIcon("logo.png");
         this.setIconImage(img.getImage());
 
@@ -40,24 +40,24 @@ public class UI extends JFrame {
         taskPanel.setLayout(new BoxLayout(taskPanel, BoxLayout.Y_AXIS));
         taskPanel.setBackground(new Color(32,12,45));
 
-        // Add a scroll pane to the task panel
+        //scroll pane functionality
         JScrollPane scrollPane = new JScrollPane(taskPanel);
         scrollPane.setPreferredSize(new Dimension(500, 400));
         this.add(scrollPane, BorderLayout.CENTER);
 
-        // Initialize the list for task checkboxes
+        // list array for tasks
         taskCheckBoxes = new ArrayList<>();
 
-        // Create the input panel
+        //input panel
         JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new FlowLayout());
         inputPanel.setBackground(new Color(0, 0, 69));
 
-        // Create and configure the task input field
+        // create and configure the task input field
         taskInputField = new JTextField(25);
         taskInputField.setFont(new Font("Arial", Font.PLAIN, 18));
 
-        // Create and configure buttons
+        // buttons
         JButton addButton = new JButton("Add Task");
         addButton.setFont(new Font("Arial", Font.BOLD, 16));
 
@@ -173,7 +173,7 @@ public class UI extends JFrame {
         }
     }
 
-    // Main method to run the app
+    // Main method
     public static void main(String[] args) {
         new UI();
     }

@@ -2,6 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class Login extends JFrame {
 
@@ -22,7 +27,7 @@ public class Login extends JFrame {
         this.setTitle("Login Page");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
-        this.setSize(600, 600); // Set resolution to 600x600
+        this.setSize(600, 600); // Set resolution
         this.setLayout(new BorderLayout());
         this.getContentPane().setBackground(new Color(10, 45, 56));
 
@@ -34,22 +39,23 @@ public class Login extends JFrame {
 
         // Center panel for inputs
         JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new GridLayout(3, 2, 15, 15)); // Increased gaps for proportion
+        inputPanel.setLayout(new GridLayout(7, 2, 15, 15)); // Increased gaps for proportion
         inputPanel.setBackground(new Color(10, 45, 56));
         inputPanel.setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
         inputPanel.setPreferredSize(new Dimension(100, 10));// Increased margins
 
         // Username label and field
         JLabel usernameLabel = new JLabel("Username:");
-        usernameLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        usernameLabel.setFont(new Font("Arial", Font.PLAIN, 20)); // Larger font
         usernameLabel.setForeground(Color.WHITE);
-        usernameField = new JTextField(25); //input fields
-
+        usernameField = new JTextField(10);// Increased size for input fields
+        
+        
         // Password label and field
         JLabel passwordLabel = new JLabel("Password:");
         passwordLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         passwordLabel.setForeground(Color.WHITE);
-        passwordField = new JPasswordField(25);
+        passwordField = new JPasswordField(10);
 
         // Add components to input panel
         inputPanel.add(usernameLabel);
@@ -57,27 +63,35 @@ public class Login extends JFrame {
         inputPanel.add(passwordLabel);
         inputPanel.add(passwordField);
 
-        // Add input panel to frame
-        this.add(inputPanel, BorderLayout.CENTER);
-
-        // panel for buttons
+        // Add input panel to the frame
+        this.add(inputPanel, FlowLayout.CENTER);
+        
+        // South panel for buttons
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20)); // Adjusted spacing
         buttonPanel.setBackground(new Color(10, 45, 56));
 
         // Login button
         JButton loginButton = new JButton("Login");
-        loginButton.setFont(new Font("Arial", Font.BOLD, 18)); 
-        loginButton.setPreferredSize(new Dimension(150, 40));
+        loginButton.setFont(new Font("Arial", Font.BOLD, 18)); // Larger font
+        loginButton.setPreferredSize(new Dimension(150, 40)); // Larger button
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String username = usernameField.getText();
                 String password = new String(passwordField.getPassword());
+                if(loginUser(username, password))
+                {
+                	dispose();
+                	new UI();
+                }
                 
-                JOptionPane.showMessageDialog(null, "Login clicked: " + username);
+                
+                
             }
         });
+        
+        
 
         // Register button
         JButton registerButton = new JButton("Register");
@@ -86,8 +100,9 @@ public class Login extends JFrame {
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //register functionality
-                Register regWin = new Register();
+                // Placeholder for register functionality
+                Register newWindow = new Register();
+                dispose();
             
             }
         });
@@ -99,7 +114,7 @@ public class Login extends JFrame {
         forgotPasswordButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //forgot password functionality
+                // Placeholder for forgot password functionality
                 JOptionPane.showMessageDialog(null, "Forgot Password clicked");
             }
         });
@@ -113,10 +128,36 @@ public class Login extends JFrame {
         this.add(buttonPanel, BorderLayout.SOUTH);
 
         // Make frame visible
-        this.setVisible(true);
-  
-
+        this.setVisible(true);  
     }
+    
+    private boolean loginUser(String username, String password) {
+        if (username.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Username or Password cannot be empty!", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+            String query = "SELECT * FROM users WHERE name = ? AND password = ?";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                JOptionPane.showMessageDialog(this, "Login successful!");
+                return true;
+            } else {
+                JOptionPane.showMessageDialog(this, "Invalid username or password.", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error while connecting to the database.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+    
     // Main method to run the application
     public static void main(String[] args) {
         	new Login();

@@ -41,9 +41,9 @@ public class Login extends JFrame {
 
         // Username label and field
         JLabel usernameLabel = new JLabel("Username:");
-        usernameLabel.setFont(new Font("Arial", Font.PLAIN, 20)); // Larger font
+        usernameLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         usernameLabel.setForeground(Color.WHITE);
-        usernameField = new JTextField(25); // Increased size for input fields
+        usernameField = new JTextField(25); //input fields
 
         // Password label and field
         JLabel passwordLabel = new JLabel("Password:");
@@ -57,24 +57,24 @@ public class Login extends JFrame {
         inputPanel.add(passwordLabel);
         inputPanel.add(passwordField);
 
-        // Add input panel to the frame
+        // Add input panel to frame
         this.add(inputPanel, BorderLayout.CENTER);
 
-        // South panel for buttons
+        // panel for buttons
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20)); // Adjusted spacing
         buttonPanel.setBackground(new Color(10, 45, 56));
 
         // Login button
         JButton loginButton = new JButton("Login");
-        loginButton.setFont(new Font("Arial", Font.BOLD, 18)); // Larger font
-        loginButton.setPreferredSize(new Dimension(150, 40)); // Larger button
+        loginButton.setFont(new Font("Arial", Font.BOLD, 18)); 
+        loginButton.setPreferredSize(new Dimension(150, 40));
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String username = usernameField.getText();
                 String password = new String(passwordField.getPassword());
-                // Placeholder for login functionality
+                
                 JOptionPane.showMessageDialog(null, "Login clicked: " + username);
             }
         });
@@ -86,7 +86,7 @@ public class Login extends JFrame {
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Placeholder for register functionality
+                //register functionality
                 Register regWin = new Register();
             
             }
@@ -99,7 +99,7 @@ public class Login extends JFrame {
         forgotPasswordButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Placeholder for forgot password functionality
+                //forgot password functionality
                 JOptionPane.showMessageDialog(null, "Forgot Password clicked");
             }
         });
